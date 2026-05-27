@@ -23,56 +23,44 @@ export default function RegisterPage() {
     useState(false);
 
   const handleRegister = async (
-    e: React.FormEvent<HTMLFormElement>
-  ) => {
+  e: React.FormEvent<HTMLFormElement>
+) => {
 
-    e.preventDefault();
+  e.preventDefault();
 
-    setLoading(true);
+  setLoading(true);
 
-    const { error } =
-      await supabase.auth.signUp({
+  const { error } =
+    await supabase.auth.signUp({
 
-        email,
+      email,
 
-        password,
+      password,
 
-        options: {
-          data: {
-            full_name: name,
-          },
+      options: {
+        data: {
+          full_name: name,
         },
-      });
+      },
 
-    if (error) {
+    });
 
-      alert(error.message);
+  if (error) {
 
-      setLoading(false);
-
-      return;
-    }
-
-    const { error: profileError } =
-      await supabase
-        .from("profiles")
-        .insert([
-          {
-            email,
-            role: "student",
-          },
-        ]);
-
-    console.log(profileError);
+    alert(error.message);
 
     setLoading(false);
 
-    alert(
-      "Registration Successful!"
-    );
+    return;
+  }
 
-    router.push("/login");
-  };
+  setLoading(false);
+
+  alert("Registration Successful!");
+
+  router.push("/login");
+
+};
 
   return (
 
